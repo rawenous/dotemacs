@@ -1,3 +1,7 @@
+;;; Package --- Summary
+;;; Commentary:
+;;; Code:
+
 ;; Lets make M-m my prefix key as in spacemacs
 ;; It was bound to 'back-to-indentation'
 (global-unset-key (kbd "M-m"))
@@ -15,6 +19,12 @@
  "M-x" 'counsel-M-x         ; replace default M-x with ivy backend
  "C-x b" 'ivy-switch-buffer ; change, buffer chosing ivy
  "M-/" 'hippie-expand       ; replace dabbrev-expand
+
+ ;; Multiple-cursors rocks!
+ "C-S-c C-S-c" 'mc/edit-lines
+ "C->" 'mc/mark-next-like-this
+ "C-<" 'mc/mark-previous-like-this
+ "C-c C-<" 'mc/mark-all-like-this
   )
 
 (general-define-key
@@ -55,3 +65,4 @@
   )
 
 (provide 'setup-keybindings)
+;;; setup-keybindings.el ends here

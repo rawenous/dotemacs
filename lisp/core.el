@@ -1,3 +1,6 @@
+;;; Package --- Summary
+;;; Commentary:
+;;; Code:
 (setq delete-old-versions -1 )		; delete excess backup versions silently
 (setq version-control t )		; use version control
 (setq vc-make-backup-files t )		; make backups file even when in version controlled dir
@@ -9,7 +12,7 @@
 (setq coding-system-for-read 'utf-8 )	; use utf-8 by default
 (setq coding-system-for-write 'utf-8 )
 (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
-(setq default-fill-column 80)		; toggle wrapping text at the 80th character
+(setq fill-column 80)			; toggle wrapping text at the 80th character
 (setq initial-scratch-message "Welcome in Emacs") ; print a default message in the empty scratch buffer opened at startup
 (menu-bar-mode -1)                ; disable menu bar
 (tool-bar-mode -1)                ; disable tool bar
@@ -20,9 +23,9 @@
 ;; the following lines tell emacs where on the internet to look up
 ;; for new packages.
 (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-                         ("gnu"       . "http://elpa.gnu.org/packages/")
-                         ("melpa"     . "https://melpa.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+			 ("gnu"       . "http://elpa.gnu.org/packages/")
+			 ("melpa"     . "https://melpa.org/packages/")
+			 ("marmalade" . "http://marmalade-repo.org/packages/")))
 (package-initialize) ; guess what this one does ?
 
 ;; Bootstrap `use-package'
@@ -33,3 +36,4 @@
 (require 'use-package) ; guess what this one does too ?
 
 (provide 'core)
+;;; core.el ends here

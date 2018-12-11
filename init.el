@@ -1,3 +1,6 @@
+;;; Package --- Summary
+;;; Commentary:
+;;; Code:
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (require 'core)
@@ -46,12 +49,22 @@
 
 (use-package git-timemachine
   :ensure t
-  :commands (git-timemachine)
+  :commands (git-timemachine))
+
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'flycheck-mode))
+
+(use-package git-gutter
+  :ensure t
+  :init
+;;  (setq git-gutter:update-interval 2)
+  (global-git-gutter-mode t))
+
+(use-package multiple-cursors
+  :ensure t
 )
-
-;; git-gutter
-;; flycheck
-
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
@@ -63,10 +76,13 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))))
+    (multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(provide 'init)
+;;; init.el ends here
