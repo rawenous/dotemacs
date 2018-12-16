@@ -25,7 +25,12 @@
  "C->" 'mc/mark-next-like-this
  "C-<" 'mc/mark-previous-like-this
  "C-c C-<" 'mc/mark-all-like-this
-  )
+
+ "M-c" 'duplicate-thing ;; duplicate current line
+ "C-a" 'prelude-move-beginning-of-line ; smarter beginning of line
+ "C-w" 'unix-werase-or-kill ; same behaviour as in terminal
+ "M-n" 'er/expand-region
+ )
 
 (general-define-key
  :prefix "M-m"
