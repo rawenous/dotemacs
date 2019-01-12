@@ -38,5 +38,45 @@
 ;; Rebind yes-no to y-n
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+(defun path-join (root &rest dirs)
+  "Join paths together starting at ROOT and proceeding with DIRS.
+Ex: (path-join \"/tmp\" \"a\" \"b\" \"c\") => /tmp/a/b/c"
+  (if (not dirs)
+      root
+    (apply 'path-join
+	   (expand-file-name (car dirs) root)
+	   (cdr dirs))))
+
+(defconst *user-cache-directory*
+  (path-join "~" ".cache")
+    "Path to user's local cache store.")
+
+
+;; Setup auto save directory
+(defconst *user-auto-save-directory* (path-join *user-cache-directory* "auto-saves"))
+
+;; Emacs will create the backup dir automatically, but not the autosaves dir.
+(make-directory *user-auto-save-directory* t)
+
+(setq
+ make-backup-files t        ; backup a file the first time it is saved
+ backup-directory-alist `((".*" . , *user-auto-save-directory*)) ; save backup files in ~/.cache/auto-saves/
+ backup-by-copying t     ; copy the current file into backup directory
+ version-control t   ; version numbers for backup files
+ delete-old-versions t   ; delete unnecessary versions
+ kept-old-versions 6     ; oldest versions to keep when a new numbered backup is made (default: 2)
+ kept-new-versions 9 ; newest versions to keep when a new numbered backup is made (default: 2)
+ ;; auto-save-default t ; auto-save every buffer that visits a file
+ ;; auto-save-timeout 20 ; number of seconds idle time before auto-save (default: 30)
+ ;; auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
+)
+
+;; set up tramp files
+(setq
+ ;; Persistency files.
+ tramp-persistency-file-name (path-join *user-cache-directory* "tramp")
+ ;; Auto save storage.
+ tramp-auto-save-directory (path-join *user-auto-save-directory* "tramp"))
+
 (provide 'core)
 ;;; core.el ends here

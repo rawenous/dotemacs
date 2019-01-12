@@ -15,10 +15,12 @@
   :commands (avy-goto-word-1))
 
 (general-define-key
-  ;; replace default keybindings
+ ;; replace default keybindings
+ "C-s" 'swiper
  "M-x" 'counsel-M-x         ; replace default M-x with ivy backend
  "C-x b" 'ivy-switch-buffer ; change, buffer chosing ivy
  "M-/" 'hippie-expand       ; replace dabbrev-expand
+ "C-x C-f" 'counsel-find-file
 
  ;; Multiple-cursors rocks!
  "C-S-c C-S-c" 'mc/edit-lines
@@ -30,22 +32,26 @@
  "C-a" 'prelude-move-beginning-of-line ; smarter beginning of line
  "C-w" 'unix-werase-or-kill ; same behaviour as in terminal
  "M-n" 'er/expand-region
+
+ ;; "M-y" 'helm-show-kill-ring
  )
 
 (general-define-key
  :prefix "M-m"
  ;; bind to simple key press
-  "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
+ ;;"b"	'ivy-switch-buffer  ; change buffer, chose using ivy
+ "b" 'counsel-ibuffer
   "/"   'counsel-git-grep   ; find string in git project
-
+  "*" 'counsel-ag           ; use ag for general search
   ;; file stuff
   "f"   '(:ignore t :which-key "files")
-  "ff"  'counsel-find-file  ; find file using ivy
-  "fr"	'counsel-recentf    ; find recently edited files
+  "ff"  'counsel-find-file ; find file using ivy
+  "fr"  'counsel-recentf    ; find recent files
 
   ;; Project stuff
   "p"   '(:ignore t :which-key "project")
-  "pf"  'counsel-git        ; find file in git project
+  "pf" 'counsel-git
+  ;; "p" '(projectile-command-map :which-key "project")
 
   ;; Searching high and low
   "s"   '(:ignore t :which-key "searching")
