@@ -10,10 +10,14 @@
     (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
     ;; Required to make imenu functions work correctly
     (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
+    (add-hook 'js2-mode-hook #'lsp)
   :config
   ;;; Unbind since we want to use xref-js2 instead
   (define-key js-mode-map (kbd "M-.") nil)
   (setq js-indent-level 2)
+  (eval-after-load 'js2-mode-hook
+    '(define-key js2-mode-map (kbd "C-c c r") 'lsp-rename)
+    )
   )
 
 (use-package js2-refactor

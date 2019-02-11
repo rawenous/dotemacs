@@ -62,8 +62,8 @@
   "jj"  'avy-goto-char-timer ; When you stop typing that word will match
 
   ;; Toggles
-  "T"   '(:ignore t :which-key "toggles")
-  "Tw"  'whitespace-mode
+  "t"   '(:ignore t :which-key "toggles")
+  "tw"  'whitespace-mode
 
   ;; Git commands but only magit forn ow
   "g"   '(:ignore t :which-key "git")
