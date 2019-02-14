@@ -4,34 +4,21 @@
 
 ;;; Setup javascript
 
+
 (use-package js2-mode
   :ensure t
   :init
     (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-    ;; Required to make imenu functions work correctly
-    (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
     (add-hook 'js2-mode-hook #'lsp)
   :config
-  ;;; Unbind since we want to use xref-js2 instead
-  (define-key js-mode-map (kbd "M-.") nil)
   (setq js-indent-level 2)
-  (eval-after-load 'js2-mode-hook
-    '(define-key js2-mode-map (kbd "C-c c r") 'lsp-rename)
-    )
   )
 
-(use-package js2-refactor
+(use-package typescript-mode
   :ensure t
   :init
-  (add-hook 'js2-mode-hook 'js2-refactor-mode)
-  (js2r-add-keybindings-with-prefix "C-c C-r"))
-
-(use-package xref-js2
-  :ensure t
-  :init
-  (add-hook 'js2-mode-hook (lambda ()
-			     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
-  )
+    (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+    (add-hook 'typescript-mode-hook #'lsp))
 
 (provide 'setup-programming)
 ;;; setup-programming.el ends here

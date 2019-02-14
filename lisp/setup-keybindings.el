@@ -40,6 +40,7 @@
  :prefix "M-m"
  ;; bind to simple key press
  ;;"b"	'ivy-switch-buffer  ; change buffer, chose using ivy
+ "TAB" '(spacemacs/alternate-buffer :which-key "last buffer")
  "b" 'counsel-ibuffer
   "/"   'counsel-git-grep   ; find string in git project
   "*" 'counsel-ag           ; use ag for general search
@@ -60,6 +61,7 @@
   ;; Jumping around
   "j"   '(:ignore t :which-key "jumping")
   "jj"  'avy-goto-char-timer ; When you stop typing that word will match
+  "ji"  'counsel-imenu
 
   ;; Toggles
   "t"   '(:ignore t :which-key "toggles")

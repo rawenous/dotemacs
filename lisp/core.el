@@ -22,9 +22,7 @@
 (setq delete-old-versions -1 )          ; delete excess backup versions silently
 (setq version-control t )               ; use version control
 (setq vc-make-backup-files t )          ; make backups file even when in version controlled dir
-(setq backup-directory-alist `(("." . "~/.emacs.d/backups")) ) ; which directory to put backups file
 (setq vc-follow-symlinks t )                                   ; don't ask for confirmation when opening symlinked file
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
 (setq inhibit-startup-screen t )        ; inhibit useless and old-school startup screen
 (setq ring-bell-function 'ignore )      ; silent bell when you make a mistake
 (setq coding-system-for-read 'utf-8 )   ; use utf-8 by default
@@ -32,7 +30,7 @@
 (setq sentence-end-double-space nil)    ; sentence SHOULD end with only a point.
 (setq fill-column 80)                   ; toggle wrapping text at the 80th character
 (setq initial-scratch-message "Welcome in Emacs") ; print a default message in the empty scratch buffer opened at startup
-(setq indent-tabs-mode nil)       ; Use spaces for indenting
+(setq-default indent-tabs-mode nil)       ; Use spaces for indenting
 (menu-bar-mode -1)                ; disable menu bar
 (tool-bar-mode -1)                ; disable tool bar
 
@@ -48,6 +46,24 @@ Ex: (path-join \"/tmp\" \"a\" \"b\" \"c\") => /tmp/a/b/c"
            (expand-file-name (car dirs) root)
            (cdr dirs))))
 
+(defun spacemacs/alternate-buffer (&optional window)
+  "Switch back and forth between current and last buffer in the
+current window."
+  (interactive)
+  (let ((current-buffer (window-buffer window))
+        (buffer-predicate
+         (frame-parameter (window-frame window) 'buffer-predicate)))
+    ;; switch to first buffer previously shown in this window that matches
+    ;; frame-parameter `buffer-predicate'
+    (switch-to-buffer
+     (or (cl-find-if (lambda (buffer)
+                       (and (not (eq buffer current-buffer))
+                            (or (null buffer-predicate)
+                                (funcall buffer-predicate buffer))))
+                     (mapcar #'car (window-prev-buffers window)))
+         ;; `other-buffer' honors `buffer-predicate' so no need to filter
+(other-buffer current-buffer t)))))
+
 (defconst *user-cache-directory*
   (path-join "~" ".cache")
     "Path to user's local cache store.")
@@ -55,13 +71,17 @@ Ex: (path-join \"/tmp\" \"a\" \"b\" \"c\") => /tmp/a/b/c"
 
 ;; Setup auto save directory
 (defconst *user-auto-save-directory* (path-join *user-cache-directory* "auto-saves"))
+;; Setup auto-save-list directory
+(defconst *user-auto-save-list-directory* (path-join *user-cache-directory* "auto-saves-list"))
 
 ;; Emacs will create the backup dir automatically, but not the autosaves dir.
 (make-directory *user-auto-save-directory* t)
+(make-directory *user-auto-save-list-directory* t)
 
 (setq
  make-backup-files t        ; backup a file the first time it is saved
  backup-directory-alist `((".*" . , *user-auto-save-directory*)) ; save backup files in ~/.cache/auto-saves/
+ auto-save-file-name-transforms `((".*" , *user-auto-save-list-directory* t)) ;transform backups file name
  backup-by-copying t     ; copy the current file into backup directory
  version-control t   ; version numbers for backup files
  delete-old-versions t   ; delete unnecessary versions

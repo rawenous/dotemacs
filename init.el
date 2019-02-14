@@ -124,8 +124,8 @@
   :config
   (progn
     (setq winum-auto-assign-0-to-minibuffer nil
-	  winum-auto-setup-mode-line nil
-	  winum-ignored-buffers '(" *which-key*"))
+          winum-auto-setup-mode-line nil
+          winum-ignored-buffers '(" *which-key*"))
     (define-key winum-keymap (kbd "M-0") 'winum-select-window-0-or-10)
     (define-key winum-keymap (kbd "M-1") 'winum-select-window-1)
     (define-key winum-keymap (kbd "M-2") 'winum-select-window-2)
@@ -179,8 +179,7 @@
 (use-package smartparens
   :ensure t
   :config
-  (add-hook 'lisp-mode-hook #'smartparens-mode)
-  (add-hook 'js-mode-hook #'smartparens-mode)
+  (add-hook 'prog-mode-hook #'smartparens-mode)
   )
 
 (custom-set-variables
@@ -190,7 +189,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))))
+    (typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
