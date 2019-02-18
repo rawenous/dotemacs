@@ -166,14 +166,19 @@
   :ensure t
   :commands lsp
   :config
-  (setq lsp-enable-indentation nil)
+  (setq
+   lsp-enable-indentation nil
+   lsp-prefer-flymake :none)
 )
 
 (use-package yaml-mode
   :ensure t
   )
 
-(use-package lsp-ui :ensure t :commands lsp-ui-mode)
+(use-package lsp-ui :ensure t :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-sideline-enable nil)
+  )
 (use-package company-lsp :ensure t :commands company-lsp)
 
 (use-package smartparens

@@ -12,6 +12,17 @@
     (add-hook 'js2-mode-hook #'lsp)
   :config
   (setq js-indent-level 2)
+  (eval-after-load 'lsp-mode
+    (general-define-key
+     :keymaps 'js2-mode-map
+     :prefix "C-c c"
+     "r" 'lsp-rename
+     "p" 'lsp-ui-peek-find-implementation
+     "h" 'lsp-describe-thing-at-point
+     "H" 'lsp-describe-session
+     "R" 'lsp-find-references
+     )
+    )
   )
 
 (use-package typescript-mode
