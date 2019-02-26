@@ -34,6 +34,11 @@
 (menu-bar-mode -1)                ; disable menu bar
 (tool-bar-mode -1)                ; disable tool bar
 
+
+;; set todo directory
+(eval-after-load 'todo-mode
+  (setq todo-directory "~/Documents/todo/"))
+
 ;; Rebind yes-no to y-n
 (defalias 'yes-or-no-p 'y-or-n-p)
 

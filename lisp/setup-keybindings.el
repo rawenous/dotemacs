@@ -34,6 +34,7 @@
  "M-n" 'er/expand-region
 
  ;; "M-y" 'helm-show-kill-ring
+ "C-c t" 'todo-show
  )
 
 (general-define-key
