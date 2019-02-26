@@ -2,18 +2,20 @@
 ;;; Commentary:
 ;;; Code:
 
+(defvar current-dir)
+
 ;;; Setup javascript
 (defun ladan/set-in-project-eslint ()
   "Set eslint executable to the one in node_modules."
   (setq current-dir default-directory)
-  (while (equal nil (let* ((root (locate-dominating-file current-dir "node_modules"))
+  (while (and (not (equal current-dir "../")) (equal nil (let* ((root (locate-dominating-file current-dir "node_modules"))
                            (eslint (and root
                                         (expand-file-name "node_modules/eslint/bin/eslint.js"
                                                           root))))
                       (when (and eslint (file-executable-p eslint))
                         (setq-local flycheck-javascript-eslint-executable eslint)
                         (setq-local flycheck-eslint-args '("--cache-location" "~/.cache/.eslintcache" "--cache")
-                                    ))))
+                                    )))))
     (setq current-dir (concat (locate-dominating-file current-dir "node_modules") "../"))
     )
   )
