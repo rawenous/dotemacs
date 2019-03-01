@@ -20,6 +20,9 @@
     )
   )
 
+(use-package web-mode
+  :ensure t)
+
 (use-package js2-mode
   :ensure t
   :init
