@@ -1,3 +1,8 @@
 recentf
 elpa
 bookmarks
+.mc-lists.el
+.lsp-session-v1
+auto-save-list
+projectile*
+transient
