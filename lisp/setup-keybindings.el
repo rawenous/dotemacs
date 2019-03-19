@@ -14,13 +14,16 @@
 (use-package avy :ensure t
   :commands (avy-goto-word-1))
 
+
+
 (general-define-key
  ;; replace default keybindings
  "C-s" 'swiper
- "M-x" 'counsel-M-x         ; replace default M-x with ivy backend
- "C-x b" 'ivy-switch-buffer ; change, buffer chosing ivy
+ "M-x" 'helm-M-x         ; replace default M-x with ivy backend
+ ;; "C-x b" 'ivy-switch-buffer ; change, buffer chosing ivy
+ "C-x b" 'helm-mini ; change, buffer chosing ivy
  "M-/" 'hippie-expand       ; replace dabbrev-expand
- "C-x C-f" 'counsel-find-file
+ "C-x C-f" 'helm-find-files
 
  ;; Multiple-cursors rocks!
  "C-S-c C-S-c" 'mc/edit-lines
@@ -33,7 +36,7 @@
  "C-w" 'unix-werase-or-kill ; same behaviour as in terminal
  "M-n" 'er/expand-region
 
- ;; "M-y" 'helm-show-kill-ring
+ "M-y" 'helm-show-kill-ring
  "C-c t" 'todo-show
  )
 
@@ -42,18 +45,22 @@
  ;; bind to simple key press
  ;;"b"	'ivy-switch-buffer  ; change buffer, chose using ivy
  "TAB" '(spacemacs/alternate-buffer :which-key "last buffer")
- "b" 'counsel-ibuffer
-  "/"   'counsel-git-grep   ; find string in git project
-  "*" 'counsel-ag           ; use ag for general search
-  ;; file stuff
+ ;; "b" 'counsel-ibuffer
+ "b" '(helm-mini :which-key "buffers")
+ ;; "/"   'counsel-git-grep   ; find string in git project
+ ;; "*" 'counsel-ag           ; use ag for general search
+ "*" 'helm-do-grep-ag
+ "/" 'helm-grep-do-git-grep
+
+ ;; file stuff
   "f"   '(:ignore t :which-key "files")
-  "ff"  'counsel-find-file ; find file using ivy
-  "fr"  'counsel-recentf    ; find recent files
+  ;; "ff"  'counsel-find-file ; find file using ivy
+  ;; "fr"  'counsel-recentf    ; find recent files
+  "ff" 'helm-find-files
+  "fr" 'helm-recentf
 
   ;; Project stuff
-  "p"   '(:ignore t :which-key "project")
-  "pf" 'counsel-git
-  ;; "p" '(projectile-command-map :which-key "project")
+  "p" '(projectile-command-map :which-key "project")
 
   ;; Searching high and low
   "s"   '(:ignore t :which-key "searching")
@@ -62,7 +69,8 @@
   ;; Jumping around
   "j"   '(:ignore t :which-key "jumping")
   "jj"  'avy-goto-char-timer ; When you stop typing that word will match
-  "ji"  'counsel-imenu
+  ;; "ji"  'counsel-imenu
+  "ji" 'helm-imenu
 
   ;; Toggles
   "t"   '(:ignore t :which-key "toggles")
