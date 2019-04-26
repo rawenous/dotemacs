@@ -2,6 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
+;; Reverse behavior of helm-grep-git-1 to grep whole repo instead of
+;; current dir
+(defun my-helm-grep-do-git-grep (not-all)
+  (interactive "P")
+  (helm-grep-git-1 default-directory (null not-all)))
+
 (use-package helm
   :ensure t
   :diminish helm-mode
@@ -21,7 +27,7 @@
   (helm-projectile-on)
   :config
   (setq projectile-completion-system 'helm
-        projectile-enable-caching t
+        projectile-enable-caching nil
         )
   )
 

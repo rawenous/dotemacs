@@ -50,7 +50,7 @@
  ;; "/"   'counsel-git-grep   ; find string in git project
  ;; "*" 'counsel-ag           ; use ag for general search
  "*" 'helm-do-grep-ag
- "/" 'helm-grep-do-git-grep
+ "/" 'my-helm-grep-do-git-grep ; Modified function to grep whole repo by default
 
  ;; file stuff
   "f"   '(:ignore t :which-key "files")
@@ -75,6 +75,7 @@
   ;; Toggles
   "t"   '(:ignore t :which-key "toggles")
   "tw"  'whitespace-mode
+  "tg"  'global-git-gutter-mode
 
   ;; Git commands but only magit forn ow
   "g"   '(:ignore t :which-key "git")

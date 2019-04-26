@@ -97,6 +97,7 @@
      "R" 'lsp-find-references
      "e" 'js2-refactor-hydra/body
      "k" 'js2r-kill
+     "j" 'lsp-find-definition
      )
     )
   )
@@ -108,6 +109,7 @@
     (add-hook 'typescript-mode-hook #'lsp))
 
 
+(setq css-indent-offset 2)
 
 (provide 'setup-programming)
 ;;; setup-programming.el ends here

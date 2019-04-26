@@ -100,7 +100,7 @@
   :ensure t
   :init
 ;;  (setq git-gutter:update-interval 2)
-  (global-git-gutter-mode t))
+)
 
 (use-package multiple-cursors
   :ensure t
@@ -143,26 +143,25 @@
 
 (use-package hydra
   :ensure t
-  :bind
-  ("M-a" . hydra-move/body)
-  ("M-e" . hydra-move/body))
+)
 
 (use-package ivy-hydra
   :ensure t)
 
-(defhydra hydra-move
-   (:body-pre (next-line))
-   "move"
-   ("n" next-line)
-   ("p" previous-line)
-   ("f" forward-char)
-   ("b" backward-char)
-   ("a" backward-paragraph)
-   ("e" forward-paragraph)
-   ("v" scroll-up-command)
-   ;; Converting M-v to V here by analogy.
-   ("V" scroll-down-command)
-   ("l" recenter-top-bottom))
+;; Not used at the moment
+;; (defhydra hydra-move
+;;    (:body-pre (next-line))
+;;    "move"
+;;    ("n" next-line)
+;;    ("p" previous-line)
+;;    ("f" forward-char)
+;;    ("b" backward-char)
+;;    ("a" backward-paragraph)
+;;    ("e" forward-paragraph)
+;;    ("v" scroll-up-command)
+;;    ;; Converting M-v to V here by analogy.
+;;    ("V" scroll-down-command)
+;;    ("l" recenter-top-bottom))
 
 
 (use-package lsp-mode
