@@ -33,7 +33,7 @@
 (setq-default indent-tabs-mode nil)       ; Use spaces for indenting
 (menu-bar-mode -1)                ; disable menu bar
 (tool-bar-mode -1)                ; disable tool bar
-
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; set todo directory
 (eval-after-load 'todo-mode
