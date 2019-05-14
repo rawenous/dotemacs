@@ -38,6 +38,9 @@
 
  "M-y" 'helm-show-kill-ring
  "C-c t" 'todo-show
+
+ ;; visual-regexp-steroids
+ "C-M-%" 'vr/query-replace
  )
 
 (general-define-key

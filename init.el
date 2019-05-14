@@ -189,13 +189,6 @@
   (add-hook 'prog-mode-hook #'smartparens-mode)
   )
 
-(use-package toml-mode
-  :ensure t
-  )
-
-(use-package dockerfile-mode
-  :ensure t)
-
 (use-package json-mode
   :ensure t)
 
@@ -204,14 +197,23 @@
   :config
   (add-hook 'prog-mode-hook #'hl-todo-mode))
 
+(use-package visual-regex-steroids
+  :ensure t
+)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" default)))
+ '(debug-on-error nil)
  '(package-selected-packages
    (quote
-    (helm-swoop helm-projectile helm prettier js-doc hl-todo web-mode json-mode typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))))
+    (visual-regexp-steroids helm-swoop helm-projectile helm prettier js-doc hl-todo web-mode json-mode typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
