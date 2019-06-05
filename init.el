@@ -12,6 +12,14 @@
   (exec-path-from-shell-initialize))
   )
 
+(use-package avy
+    :defer t
+    :init
+    (progn
+      (setq avy-all-windows 'all-frames)
+      (setq avy-background t)
+      )
+
 (use-package swiper :ensure t
   :commands (swiper)
   :config
