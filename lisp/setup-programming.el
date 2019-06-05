@@ -91,7 +91,7 @@
      :keymaps 'js2-mode-map
      :prefix "C-c c"
      "R" 'lsp-rename
-     "p" 'lsp-ui-peek-find-implementation
+     "p" 'lsp-ui-peek-find-definitions
      "h" 'lsp-describe-thing-at-point
      "H" 'lsp-describe-session
      "r" 'lsp-find-references
