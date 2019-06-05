@@ -4,10 +4,6 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (require 'core)
-(require 'setup-helm)
-(require 'setup-programming)
-(require 'setup-editing)
-(require 'setup-keybindings)
 
 ;; Use PATH from shell
 (use-package exec-path-from-shell :ensure t
@@ -197,29 +193,44 @@
   :config
   (add-hook 'prog-mode-hook #'hl-todo-mode))
 
-(use-package visual-regex-steroids
+(use-package visual-regexp-steroids
   :ensure t
 )
 
+(use-package general :ensure t
+  :config
+  (general-define-key "C-'" 'avy-goto-word-1)
+  )
+
+(require 'setup-helm)
+(require 'setup-programming)
+(require 'setup-editing)
+(require 'setup-keybindings)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(column-number-mode t)
  '(custom-safe-themes
    (quote
     ("6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" default)))
  '(debug-on-error nil)
+ '(font-use-system-font t)
+ '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-    (visual-regexp-steroids helm-swoop helm-projectile helm prettier js-doc hl-todo web-mode json-mode typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))))
+    (visual-regexp-steroids helm-swoop helm-projectile helm prettier js-doc hl-todo web-mode json-mode typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package)))
+ '(size-indication-mode t)
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "Ubuntu Mono" :foundry "DAMA" :slant normal :weight normal :height 128 :width normal)))))
 
 (provide 'init)
 ;;; init.el ends here

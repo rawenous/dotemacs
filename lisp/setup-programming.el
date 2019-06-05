@@ -90,11 +90,11 @@
     (general-define-key
      :keymaps 'js2-mode-map
      :prefix "C-c c"
-     "r" 'lsp-rename
+     "R" 'lsp-rename
      "p" 'lsp-ui-peek-find-implementation
      "h" 'lsp-describe-thing-at-point
      "H" 'lsp-describe-session
-     "R" 'lsp-find-references
+     "r" 'lsp-find-references
      "e" 'js2-refactor-hydra/body
      "k" 'js2r-kill
      "j" 'lsp-find-definition

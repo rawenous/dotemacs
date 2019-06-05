@@ -6,10 +6,28 @@
 (setq package-enable-at-startup nil) ; tells emacs not to load any packages before starting up
 ;; the following lines tell emacs where on the internet to look up
 ;; for new packages.
-(setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-                         ("gnu"       . "http://elpa.gnu.org/packages/")
-                         ("melpa"     . "https://melpa.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+;; (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
+;;                          ("gnu"       . "http://elpa.gnu.org/packages/")
+;;                          ("melpa"     . "https://melpa.org/packages/")
+;;                          ;;("marmalade" . "http://marmalade-repo.org/packages/") dead? https://github.com/nicferrier/elmarmalade/issues/158
+;;                          ))
+
+(setq
+   ;; Configure GNU/Emacs package repositories.
+   package-archives
+   '(("GNU ELPA"     . "https://elpa.gnu.org/packages/")
+     ("MELPA Stable" . "http://stable.melpa.org/packages/")
+     ("MELPA"        . "http://melpa.org/packages/")
+     ("org"          . "http://orgmode.org/elpa/")
+     )
+   ;; Prefer MELPA Stable over GNU over MELPA.
+   package-archive-priorities
+   '(("MELPA Stable" . 20)
+     ("GNU ELPA"     . 15)
+     ("MELPA"        . 10)
+     ("org"          . 5)
+     ))
+
 (package-initialize) ; guess what this one does ?
 
 ;; Bootstrap `use-package'
@@ -29,7 +47,7 @@
 (setq coding-system-for-write 'utf-8 )
 (setq sentence-end-double-space nil)    ; sentence SHOULD end with only a point.
 (setq fill-column 80)                   ; toggle wrapping text at the 80th character
-(setq initial-scratch-message "Welcome in Emacs") ; print a default message in the empty scratch buffer opened at startup
+(setq initial-scratch-message "Todo change this to dashboard :P") ; print a default message in the empty scratch buffer opened at startup
 (setq-default indent-tabs-mode nil)       ; Use spaces for indenting
 (menu-bar-mode -1)                ; disable menu bar
 (tool-bar-mode -1)                ; disable tool bar

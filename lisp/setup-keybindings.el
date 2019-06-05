@@ -6,11 +6,6 @@
 ;; It was bound to 'back-to-indentation'
 (global-unset-key (kbd "M-m"))
 
-(use-package general :ensure t
-  :config
-  (general-define-key "C-'" 'avy-goto-word-1)
-  )
-
 (use-package avy :ensure t
   :commands (avy-goto-word-1))
 
