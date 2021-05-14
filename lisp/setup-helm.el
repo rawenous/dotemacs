@@ -9,35 +9,48 @@
   (helm-grep-git-1 default-directory (null not-all)))
 
 (use-package helm
-  :ensure t
   :diminish helm-mode
   :init
   (helm-mode 1)
   (helm-autoresize-mode t)
   :config
-  (setq helm-split-window-inside-p           t ; open helm buffer inside current window, not occupy whole other window
-        helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-        helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-))
-
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode)
-  (helm-projectile-on)
-  :config
-  (setq projectile-completion-system 'helm
-        projectile-enable-caching nil
+  (setq helm-split-window-inside-p           t ; open helm buffer
+                                               ; inside current
+                                               ; window, not occupy
+                                               ; whole other window
+        helm-move-to-line-cycle-in-source     t ; move to end or
+                                                ; beginning of source
+                                                ; when reaching top or
+                                                ; bottom of source.
+        helm-scroll-amount                    8 ; scroll 8 lines other
+                                                ; window using
+                                        ; M-<next>/M-<prior>
         )
+
+  ;; Swithc helm default behaviour
+  (define-key helm-map (kbd "TAB") 'helm-execute-persistent-action)
+  (define-key helm-map (kbd "C-z") 'helm-select-action)
+
+  :general
+  ("M-x" 'helm-M-x)         ; replace default M-x
+  ("C-x C-f" 'helm-find-files)
+  ("C-x b" 'helm-mini) ; change, buffer chosing ivy
+  (my-leader-def
+   "b" '(helm-mini :which-key "buffers")
+    "*" 'helm-do-grep-ag
+    "/" 'my-helm-grep-do-git-grep ; Modified function to grep whole repo by default
+    "f"   '(:ignore t :which-key "files")
+    "ff" 'helm-find-files
+    "fr" 'helm-recentf
+    "ji" 'helm-imenu
+    )
   )
 
 (use-package helm-projectile
-  :ensure t
   :init
   )
 
 (use-package helm-swoop
-  :ensure t
   :commands (helm-swoop))
 
 (provide 'setup-helm)

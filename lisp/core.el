@@ -8,8 +8,7 @@
 ;; for new packages.
 (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
                          ("gnu"       . "http://elpa.gnu.org/packages/")
-                         ("melpa"     . "https://melpa.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+                         ("melpa"     . "https://melpa.org/packages/")))
 (package-initialize) ; guess what this one does ?
 
 ;; Bootstrap `use-package'
@@ -18,6 +17,8 @@
   (package-install 'use-package)) ; and install the most recent version of use-package
 
 (require 'use-package) ; guess what this one does too ?
+(setq use-package-always-ensure t)
+
 
 (setq delete-old-versions -1 )          ; delete excess backup versions silently
 (setq version-control t )               ; use version control
@@ -35,9 +36,10 @@
 (tool-bar-mode -1)                ; disable tool bar
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
-;; set todo directory
-(eval-after-load 'todo-mode
-  (setq todo-directory "~/Documents/todo/"))
+(setq org-log-done t)
+(setq org-agenda-files (list "~/Documents/work.org"))
+(setq org-duration-format (quote h:mm))
+
 
 ;; Rebind yes-no to y-n
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -96,6 +98,16 @@ current window."
  ;; auto-save-timeout 20 ; number of seconds idle time before auto-save (default: 30)
  ;; auto-save-interval 200 ; number of keystrokes between auto-saves (default: 300)
 )
+
+;; start emacs maximized
+(add-hook 'emacs-startup-hook 'toggle-frame-maximized)
+
+(use-package general :ensure t
+  :config
+  (general-create-definer my-leader-def
+    :prefix "M-m")
+  )
+
 
 ;; set up tramp files
 (setq

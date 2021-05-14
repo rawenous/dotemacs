@@ -4,10 +4,10 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 (require 'core)
-(require 'setup-helm)
 (require 'setup-programming)
 (require 'setup-editing)
 (require 'setup-keybindings)
+(require 'setup-helm)
 
 ;; Use PATH from shell
 (use-package exec-path-from-shell :ensure t
@@ -21,14 +21,17 @@
   :config
   (bind-key "M-c" #'swiper-mc swiper-map))
 
-(use-package counsel :ensure t
-  :commands (counsel-M-x)
-  :init (counsel-mode)
-  :config
-  (setq ivy-use-virtual-buffers t)
-  )
+;; (use-package counsel :ensure t
+;;   :commands (counsel-M-x)
+;;   :init (counsel-mode)
+;;   :config
+;;   (setq ivy-use-virtual-buffers t)
+;;   :general
+;;   (my-leader-def "/" 'counsel-git-grep)
+;;   )
 
-(use-package which-key :ensure t
+
+(use-package which-key
   :diminish t
   :init
   (which-key-mode))
@@ -38,38 +41,35 @@
   :ensure t
   :commands (duplicate-thing))
 
-(use-package doom-themes :ensure t
+(use-package doom-themes
   :init
   (load-theme 'doom-one t))
 
-(use-package rainbow-mode :ensure t
+(use-package rainbow-mode
   :diminish t
   :init
   (rainbow-mode))
 
 ;; highlight text that was inserted
 (use-package volatile-highlights
-  :ensure t
   :diminish volatile-highlights-mode
   :config
-(volatile-highlights-mode t))
+  (volatile-highlights-mode t))
 
-(use-package rainbow-delimiters :ensure t
+(use-package rainbow-delimiters
   :init
   :config
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 ;; Hihlight the parentheses that surrounds the cursor
 (use-package highlight-parentheses
-  :ensure t
   :config
   (add-hook 'prog-mode-hook 'highlight-parentheses-mode)
-  (set-face-attribute 'hl-paren-face nil :weight 'ultra-bold)
+  (set-face-attribute 'hl-paren-face nil :weight 'ultra-bold :box t)
   :diminish highlight-parentheses-mode
   )
 
 (use-package doom-modeline
-  :ensure t
   :config
   (setq doom-modeline-buffer-file-name-style 'file-name)
   :defer t
@@ -77,17 +77,47 @@
 
 ;; Company is a text completion framework for Emacs. The name stands for "complete anything".
 (use-package company
-  :ensure t
   :config
   (global-company-mode)
   :diminish company-mode)
 
 (use-package magit
-  :ensure t
+  :defer t
   :config
-  (add-hook 'magit-mode-hook 'magit-load-config-extensions))
+  (add-hook 'magit-mode-hook 'magit-load-config-extensions)
+  :general
+  (my-leader-def
+    ;; Git commands but only magit for now
+    "g"   '(:ignore t :which-key "git")
+    "gb"  'magit-blame
+    "gfh" 'magit-log-buffer-file
+    "gm"  'magit-dispatch-popup
+    "gs"  'magit-status
+    "gt"  'git-timemachine
+    "gS"  'magit-stage-file
+    "gU"  'magit-unstage-file
+    )
+  )
+
+(use-package projectile
+  :defer t
+  :ensure t
+  :init
+  (projectile-mode)
+  (helm-projectile-on)
+  :config
+  (setq projectile-completion-system 'helm
+        projectile-enable-caching nil
+        )
+  :general
+  (my-leader-def
+    ;; Project stuff
+    "p" '(projectile-command-map :which-key "project")
+    ))
+
 
 (use-package git-timemachine
+  :defer t
   :ensure t
   :commands (git-timemachine))
 
@@ -197,10 +227,31 @@
   :config
   (add-hook 'prog-mode-hook #'hl-todo-mode))
 
-(use-package visual-regex-steroids
-  :ensure t
+(use-package visual-regexp-steroids
+
 )
 
+(use-package undo-tree
+  :init
+  (undo-tree-mode 1)
+  :general
+  (my-leader-def
+    "a u" 'undo-tree-visualize
+    ))
+
+(defun ravenous/my-restart-resume-layouts ()
+  "Restart emacs with resumed layouts"
+  (interactive)
+  (setq restart-emacs-restore-frames t)
+  (restart-emacs))
+
+(use-package restart-emacs
+  :defer t
+  :init
+  :general
+  (my-leader-def
+    "qr" '(ravenous/my-restart-resume-layouts :which-key "resume layouts")
+    "qR" '(restart-emacs :which-key "restart")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -209,11 +260,11 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" default)))
+    ("d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "6d589ac0e52375d311afaa745205abb6ccb3b21f6ba037104d71111e7e76a3fc" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" default)))
  '(debug-on-error nil)
  '(package-selected-packages
    (quote
-    (visual-regexp-steroids helm-swoop helm-projectile helm prettier js-doc hl-todo web-mode json-mode typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))))
+    (undo-tree shell-pop restart-emacs ivy-posframe selectrum visual-regexp-steroids prettier js-doc hl-todo web-mode json-mode typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
