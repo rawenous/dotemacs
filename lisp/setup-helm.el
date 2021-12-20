@@ -12,7 +12,7 @@
   :diminish helm-mode
   :init
   (helm-mode 1)
-  (helm-autoresize-mode t)
+  (helm-autoresize-mode nil)
   :config
   (setq helm-split-window-inside-p           t ; open helm buffer
                                                ; inside current
@@ -35,6 +35,9 @@
   ("M-x" 'helm-M-x)         ; replace default M-x
   ("C-x C-f" 'helm-find-files)
   ("C-x b" 'helm-mini) ; change, buffer chosing ivy
+  ("M-y" 'helm-show-kill-ring)
+  ("C-x C-b" 'helm-buffers-list)
+
   (my-leader-def
    "b" '(helm-mini :which-key "buffers")
     "*" 'helm-do-grep-ag
@@ -43,6 +46,9 @@
     "ff" 'helm-find-files
     "fr" 'helm-recentf
     "ji" 'helm-imenu
+
+    "ss"  'helm-swoop-without-pre-input             ; search for string in current buffer
+    "sS"  'helm-swoop
     )
   )
 

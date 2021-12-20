@@ -34,6 +34,7 @@
 (setq-default indent-tabs-mode nil)       ; Use spaces for indenting
 (menu-bar-mode -1)                ; disable menu bar
 (tool-bar-mode -1)                ; disable tool bar
+(recentf-mode +1)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (setq org-log-done t)
@@ -116,5 +117,70 @@ current window."
  ;; Auto save storage.
  tramp-auto-save-directory (path-join *user-auto-save-directory* "tramp"))
 
-(provide 'core)
+
+;; https://www.emacswiki.org/emacs/CopyingWholeLines#h5o-12
+(defun ravenous/duplicate-line-or-region (&optional n)
+  "Duplicate current line, or region if active.
+    With argument N, make N copies.
+    With negative N, comment out original line and use the absolute value."
+  (interactive "*p")
+  (let ((use-region (use-region-p)))
+    (save-excursion
+      (let ((text (if use-region        ;Get region if active, otherwise line
+                      (buffer-substring (region-beginning) (region-end))
+                    (prog1 (thing-at-point 'line)
+                      (end-of-line)
+                      (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+                          (newline))))))
+        (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+          (insert text))))
+    (if use-region nil                  ;Only if we're working with a line (not a region)
+      (let ((pos (- (point) (line-beginning-position)))) ;Save column
+        (if (> 0 n)                             ;Comment out original with negative arg
+            (comment-region (line-beginning-position) (line-end-position)))
+        (forward-line 1)
+        (forward-char pos)))))
+
+(defun ravenous/open-or-close-flycheck-errors ()
+  "Opens flycheck errors or closes them if already open"
+  (interactive)
+  (if (get-buffer "*Flycheck errors*")
+      (kill-buffer "*Flycheck errors*")
+    (flycheck-list-errors)))
+
+
+;; Thank you spacemacs!
+(defun ravenous/javascript-jsx-file-p ()
+  "Enable rjsx mode by using magic-mode-alist."
+  (when buffer-file-name
+    (and (member (file-name-extension buffer-file-name) '("js" "jsx"))
+         (re-search-forward "\\(^\\s-*import React\\|\\( from \\|require(\\)[\"']react\\)"
+                            magic-mode-regexp-match-limit t)
+         (save-excursion
+           (goto-char (match-beginning 1))
+           (let ((sexp (syntax-ppss)))
+             ;; not inside string or comment
+             (not (or (nth 3 sexp)
+                      (nth 4 sexp))))))))
+
+(defun efs/display-startup-time ()
+  (message "Emacs loaded in %s with %d garbage collections."
+           (format "%.2f seconds"
+                   (float-time
+                   (time-subtract after-init-time before-init-time)))
+           gcs-done))
+
+(add-hook 'emacs-startup-hook #'efs/display-startup-time)
+
+
+(defun up-directory (path)
+  "Move up a directory in PATH without affecting the kill buffer."
+  (interactive "p")
+  (if (string-match-p "/." (minibuffer-contents))
+      (let ((end (point)))
+            (re-search-backward "/.")
+            (forward-char)
+            (delete-region (point) end))))
+
+(provide 'setup-core)
 ;;; core.el ends here

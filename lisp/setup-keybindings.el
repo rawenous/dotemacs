@@ -8,7 +8,14 @@
 
 
 ;; Awesome. Like hungry delete but better
- (define-key global-map [remap cycle-spacing] (lambda () (interactive) (cycle-spacing -1)))
+(define-key global-map [remap cycle-spacing] (lambda () (interactive) (cycle-spacing -1)))
+(define-key minibuffer-inactive-mode-map
+            (kbd "C-l") #'up-directory)
+(define-key isearch-mode-map
+            (kbd "C-l") #'up-directory)
+
+(define-key minibuffer-local-filename-completion-map
+            [C-l] #'up-directory)
 
 (use-package avy :ensure t
  :commands (avy-goto-word-1))
@@ -16,19 +23,11 @@
 (general-define-key
  "M-/" 'hippie-expand       ; replace dabbrev-expand
 
- ;; Multiple-cursors rocks!
- "C-S-c C-S-c" 'mc/edit-lines
- "C->" 'mc/mark-next-like-this
- "C-<" 'mc/mark-previous-like-this
- "C-c C-<" 'mc/mark-all-like-this
-
  "C-a" 'prelude-move-beginning-of-line ; smarter beginning of line
  "C-w" 'unix-werase-or-kill ; same behaviour as in terminal
  "M-n" 'er/expand-region
 
- "M-y" 'helm-show-kill-ring
  "C-c t" 'todo-show
- "C-x C-b" 'helm-buffers-list
 
  ;; visual-regexp-steroids
  "C-M-%" 'vr/query-replace
@@ -43,13 +42,16 @@
  ;; bind to simple key press
   "TAB" '(spacemacs/alternate-buffer :which-key "last buffer")
 
-    ;; Searching high and low
   "a"   '(:ignore t :which-key "applications")
+
+  "e"    '(:ignore t :which-key "errors")
+
+  "x"    '(:ignore t :which-key "text")
+  "xl"    '(:ignore t :which-key "lines")
+  "xld" '(ravenous/duplicate-line-or-region :which-key "duplicate-line-or-region")
 
   ;; Searching high and low
   "s"   '(:ignore t :which-key "searching")
-  "ss"  'helm-swoop-without-pre-input             ; search for string in current buffer
-  "sS"  'helm-swoop
 
   ;; Jumping around
   "j"   '(:ignore t :which-key "jumping")

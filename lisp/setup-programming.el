@@ -1,7 +1,7 @@
 ;;; Package --- Summary
 ;;; Commentary:
 ;;; Code:
-
+(with-eval-after-load "hydra"
 (defhydra js2-refactor-hydra (:color blue :hint nil)
     "
 ^Functions^                    ^Variables^               ^Buffer^                      ^sexp^               ^Debugging^
@@ -40,7 +40,7 @@
 ("ba" js2r-forward-barf)
 ("k" js2r-kill)
 ("q" nil)
-)
+))
 
 (defvar current-dir)
 
@@ -61,13 +61,17 @@
   )
 
 (use-package web-mode
+  :defer t
   :ensure t)
 
 (use-package js2-refactor
-  :ensure t)
+  :ensure t
+  :hook (js2-mode . js2-refactor-mode)
+  )
 
 (use-package js-doc
   :ensure t
+  :commands js-doc-insert-function-doc
   :config
   (general-define-key
    :keymaps 'js2-mode-map
@@ -77,8 +81,9 @@
 
 (use-package js2-mode
   :ensure t
+  :mode "\\.js\\'"
   :init
-    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+    ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
     (add-hook 'js2-mode-hook #'lsp)
     (add-hook 'flycheck-mode-hook #'ladan/set-in-project-eslint)
     (add-hook 'js2-mode-hook #'js2-refactor-mode)
@@ -104,9 +109,21 @@
 
 (use-package typescript-mode
   :ensure t
+  :mode "\\.ts\\'"
   :init
-    (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+    ;; (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
     (add-hook 'typescript-mode-hook #'lsp))
+
+
+(use-package tree-sitter
+  )
+
+(use-package tree-sitter-langs
+  )
+
+(use-package clang-format
+  :ensure t
+  :hook (c-mode-common . clang-format))
 
 
 (setq css-indent-offset 2)
