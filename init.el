@@ -235,7 +235,7 @@
 
 (use-package highlight-numbers
   :ensure t
-  :init (highlight-numbers-mode)
+  :init (highlight-numbers-mode t)
   )
 
 ;; allows you to select text objects incrementally.
@@ -297,7 +297,7 @@
   :ensure t
   :commands lsp
   :config
-  (add-hook 'prog-mode-hook #'lsp)
+  (add-hook 'c-mode-hook #'lsp)
   (setq
    lsp-enable-indentation nil
    lsp-prefer-flymake :none)
@@ -336,6 +336,10 @@
   :ensure t
   :init
   (selectrum-mode +1)
+  :config
+  (define-key selectrum-minibuffer-map
+    (kbd "C-l") #'up-directory)
+
   )
 
 (use-package selectrum-prescient
@@ -366,6 +370,7 @@
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
          ("M-s e" . consult-isearch-history)
+         ("M-s j" . consult-find-from-minibuffer)
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
@@ -389,16 +394,23 @@
   (autoload 'projectile-project-root "projectile")
   (setq consult-project-root-function #'projectile-project-root)
 
+  ;; Not working yet :(
+  (defun consult-find-from-minibuffer (path)
+    "Grep from current minibuffer directory."
+    (interactive "p")
+    (if (minibufferp (current-buffer))
+        (print-rickard (minibuffer-contents))
+      (message "This command can only be run from the minibuffer")
+      ))
+
+  (defun print-rickard (directory)
+    (consult-ripgrep directory)
+    (abort-recursive-edit))
 
   (defun consult-line-symbol-at-point ()
     (interactive)
     (consult-line (thing-at-point 'symbol)))
   )
-
-;; Can use this when i switch to straight.el
-;; (use-package consult-projectile
-;;   :straight (consult-projectile :type git :host gitlab :repo "OlMon/consult-projectile" :branch "master"))
-
 
 ;; Enable richer annotations using the Marginalia package
 (use-package marginalia
@@ -461,6 +473,7 @@
  '(package-selected-packages
    '(php-mode embark-consult mini-frame marginalia consult selectrum clang-format selectrum-prescient tree-sitter-langs tree-sitter treemacs-projectile treemacs all-the-icons-dired rjsx-mode add-node-modules-path undo-tree shell-pop restart-emacs ivy-posframe visual-regexp-steroids prettier js-doc hl-todo web-mode json-mode typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))
  '(pdf-view-midnight-colors (cons "#bbc2cf" "#282c34"))
+ '(rcirc-server-alist '(("irc.libera.chat" :channels ("#emacs"))))
  '(rustic-ansi-faces
    ["#282c34" "#ff6c6b" "#98be65" "#ECBE7B" "#51afef" "#c678dd" "#46D9FF" "#bbc2cf"])
  '(safe-local-variable-values

@@ -11,11 +11,7 @@
 (define-key global-map [remap cycle-spacing] (lambda () (interactive) (cycle-spacing -1)))
 (define-key minibuffer-inactive-mode-map
             (kbd "C-l") #'up-directory)
-(define-key isearch-mode-map
-            (kbd "C-l") #'up-directory)
 
-(define-key minibuffer-local-filename-completion-map
-            [C-l] #'up-directory)
 
 (use-package avy :ensure t
  :commands (avy-goto-word-1))
