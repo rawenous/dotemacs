@@ -13,11 +13,11 @@
 (setq shell-file-name "zsh")
 
 ;; Use PATH from shell
-(use-package exec-path-from-shell :ensure t
+ (use-package exec-path-from-shell :ensure t
   :init
   (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-  )
+    (exec-path-from-shell-initialize)))
+
 
 ;; (use-package swiper :ensure t
 ;;   :commands (swiper)
@@ -37,18 +37,24 @@
   :hook js2-mode)
 
 
-;; (use-package php-mode
-;;   :ensure t
-;;   :config
-;;   (with-eval-after-load "lsp"
-;;     (assq-delete-all 'web-mode lsp-language-id-configuration)
-;;     (add-to-list 'lsp-language-id-configuration '(web-mode . "php")))
+(use-package vterm)
+(use-package vterm-toggle
+  :general
+  (my-leader-def
+    "as"   '(vterm-toggle :which-key "terminal")))
 
-;;   ;; Run web-mode with php lsp when opening php files
-;;   (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-;;   (add-hook 'web-mode-hook #'lsp)
-;;   (setq web-mode-code-indent-offset 2)
-;;   )
+(use-package php-mode
+  :ensure t
+  :config
+  (with-eval-after-load "lsp"
+    (assq-delete-all 'web-mode lsp-language-id-configuration)
+    (add-to-list 'lsp-language-id-configuration '(web-mode . "php")))
+
+  ;; Run web-mode with php lsp when opening php files
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+  (add-hook 'web-mode-hook #'lsp)
+  (setq web-mode-code-indent-offset 2)
+  )
 
 (use-package rjsx-mode
   :mode "\\.jsx"
@@ -76,14 +82,12 @@
   )
 
 (use-package which-key
-  :ensure t
   :config (which-key-mode)
   :diminish t
   )
 
 ;; duplicate current line
 (use-package duplicate-thing
-  :ensure t
   :commands (duplicate-thing))
 
 (use-package doom-themes
@@ -109,9 +113,6 @@
 ;; Hihlight the parentheses that surrounds the cursor
 (use-package highlight-parentheses
   :hook (prog-mode . highlight-parentheses-mode)
-  ;; :config
-  ;; (add-hook 'prog-mode-hook 'highlight-parentheses-mode)
-  ;; :diminish highlight-parentheses-mode
   )
 
 (use-package doom-modeline
@@ -297,7 +298,7 @@
   :ensure t
   :commands lsp
   :config
-  (add-hook 'c-mode-hook #'lsp)
+  (add-hook 'prog-mode-hook #'lsp)
   (setq
    lsp-enable-indentation nil
    lsp-prefer-flymake :none)
@@ -383,7 +384,9 @@
     "sS" 'consult-line-symbol-at-point
     "sk" 'consult-keep-lines
     "ji" 'consult-imenu
+    "fr" 'consult-recent-file
     "/" '(consult-ripgrep :which-key "project search")
+    "*" '(consult-ripgrep-symbol-at-point :which-key "project search at point")
     )
 
   :config
@@ -394,14 +397,18 @@
   (autoload 'projectile-project-root "projectile")
   (setq consult-project-root-function #'projectile-project-root)
 
-  ;; Not working yet :(
+  ;; This is a hack. I don't know how to execute a function after the
+  ;; minibuffer has closed.
   (defun consult-find-from-minibuffer (path)
     "Grep from current minibuffer directory."
     (interactive "p")
     (if (minibufferp (current-buffer))
-        (print-rickard (minibuffer-contents))
+        (run-at-time "0.2 sec" nil #'consult-ripgrep (minibuffer-contents))
+        ;;(consult-ripgrep (minibuffer-con))
       (message "This command can only be run from the minibuffer")
-      ))
+      )
+    (abort-recursive-edit)
+    )
 
   (defun print-rickard (directory)
     (consult-ripgrep directory)
@@ -410,6 +417,10 @@
   (defun consult-line-symbol-at-point ()
     (interactive)
     (consult-line (thing-at-point 'symbol)))
+
+  (defun consult-ripgrep-symbol-at-point ()
+    (interactive)
+    (consult-ripgrep nil (thing-at-point 'symbol)))
   )
 
 ;; Enable richer annotations using the Marginalia package
@@ -471,7 +482,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#1B2229" "#3f444a"))
  '(objed-cursor-color "#ff6c6b")
  '(package-selected-packages
-   '(php-mode embark-consult mini-frame marginalia consult selectrum clang-format selectrum-prescient tree-sitter-langs tree-sitter treemacs-projectile treemacs all-the-icons-dired rjsx-mode add-node-modules-path undo-tree shell-pop restart-emacs ivy-posframe visual-regexp-steroids prettier js-doc hl-todo web-mode json-mode typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))
+   '(vterm-toggle vterm php-mode embark-consult mini-frame marginalia consult selectrum clang-format selectrum-prescient tree-sitter-langs tree-sitter treemacs-projectile treemacs all-the-icons-dired rjsx-mode add-node-modules-path undo-tree shell-pop restart-emacs ivy-posframe visual-regexp-steroids prettier js-doc hl-todo web-mode json-mode typescript-mode smartparens yaml-mode exec-path-from-shell company-lsp lsp-ui lsp-mode ivy-hydra hydra xref-js2 js2-refactor js2-mode winum eyebrowse expand-region highlight-numbers duplicate-thing volatile-highlights highlight-parentheses multiple-cursors mutiple-cursors git-gutter flycheck git-timemachine magit company doom-modeline rainbow-delimiters rainbow-delimeters rainbow-mode doom-themes which-key counsel swiper avy general use-package))
  '(pdf-view-midnight-colors (cons "#bbc2cf" "#282c34"))
  '(rcirc-server-alist '(("irc.libera.chat" :channels ("#emacs"))))
  '(rustic-ansi-faces

@@ -42,6 +42,8 @@
 
   "e"    '(:ignore t :which-key "errors")
 
+  "f"    '(:ignore t :which-key "files")
+
   "x"    '(:ignore t :which-key "text")
   "xl"    '(:ignore t :which-key "lines")
   "xld" '(ravenous/duplicate-line-or-region :which-key "duplicate-line-or-region")
@@ -57,6 +59,8 @@
   "t"   '(:ignore t :which-key "toggles")
   "tw"  'whitespace-mode
   "tg"  'global-git-gutter-mode
+
+  "q"    '(:ignore t :which-key "quit")
   )
 
 (provide 'setup-keybindings)

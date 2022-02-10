@@ -62,7 +62,8 @@
 
 (use-package web-mode
   :defer t
-  :ensure t)
+  :config
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode)))
 
 (use-package js2-refactor
   :ensure t
